@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial: Criar Aplicativo para Android TV</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #e6e6e6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007acc;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        section {
+            background-color: #333;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        h2 {
+            color: #66ccff;
+        }
+        pre {
+            background-color: #2b2b2b;
+            border-left: 5px solid #66ccff;
+            overflow-x: auto;
+            padding: 10px;
+        }
+        button {
+            background-color: #007acc;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #005f99;
+        }
+        .note {
+            background-color: #444;
+            border-left: 5px solid #ffae42;
+            margin-top: 10px;
+            padding: 10px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        .notification {
+            display: none;
+            background-color: #28a745;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Tutorial: Criar Aplicativo para Android TV</h1>
+</header>
+
+<main>
+    <section>
+        <h2>Estrutura do Projeto Android TV</h2>
+        <pre><code>MeuApp/
+│
+├── app/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── com/
+│   │   │   │       └── exemplo/
+│   │   │   │           └── meuapp/
+│   │   │   │               └── MainActivity.kt
+│   │   │   ├── res/
+│   │   │   │   ├── layout/
+│   │   │   │   │   └── activity_main.xml
+│   │   │   │   ├── mipmap-mdpi/
+│   │   │   │   ├── mipmap-hdpi/
+│   │   │   │   ├── mipmap-xhdpi/
+│   │   │   │   ├── mipmap-xxhdpi/
+│   │   │   │   ├── mipmap-xxxhdpi/
+│   │   │   │   ├── values/
+│   │   │   │   │   └── strings.xml
+│   │   │   └── AndroidManifest.xml
+│   └── build.gradle
+└── build.gradle
+        </code></pre>
+    </section>
+
+    <section>
+        <h2>Passo 1: Instalação e Configuração</h2>
+        <p>Baixe e instale o Android Studio. Crie um novo projeto usando "Empty Activity" e selecione "API 30: Android 11" para compatibilidade com Android TV.</p>
+        <div class="note">
+            <strong>Dica:</strong> Certifique-se de que seu ambiente de desenvolvimento está configurado para suportar aplicativos de Android TV.
+        </div>
+    </section>
+
+    <section>
+        <h2>Passo 2: Configuração da WebView</h2>
+        <h3>Adicionando Permissões</h3>
+        <pre><code>&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code></pre>
+        <button onclick="copyToClipboard('<uses-permission android:name=\'android.permission.INTERNET\' />')">Copiar Código</button>
+
+        <h3>Layout da Atividade Principal</h3>
+        <pre><code>&lt;WebView
+    android:id="@+id/webview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" /&gt;</code></pre>
+        <button onclick="copyToClipboard('<WebView android:id=\'@+id/webview\' android:layout_width=\'match_parent\' android:layout_height=\'match_parent\' />')">Copiar Código</button>
+
+        <h3>Código Kotlin</h3>
+        <pre><code>package com.exemplo.meuapp
+
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var webView: WebView
+    private var doubleBackToExitPressedOnce = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        webView = findViewById(R.id.webview)
+        webView.webViewClient = WebViewClient()
+        webView.settings.javaScriptEnabled = true // Permitir JavaScript
+        webView.loadUrl("https://seusite.com")
+    }
+
+    override fun onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack()
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed()
+                return
+            }
+
+            this.doubleBackToExitPressedOnce = true
+            Toast.makeText(this, "Pressione novamente para sair", Toast.LENGTH_SHORT).show()
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                doubleBackToExitPressedOnce = false
+            }, 2000)
+        }
+    }
+}</code></pre>
+        <button onclick="copyToClipboard(`package com.exemplo.meuapp
+
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var webView: WebView
+    private var doubleBackToExitPressedOnce = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        webView = findViewById(R.id.webview)
+        webView.webViewClient = WebViewClient()
+        webView.settings.javaScriptEnabled = true // Permitir JavaScript
+        webView.loadUrl("https://seusite.com")
+    }
+
+    override fun onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack()
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed()
+                return
+            }
+
+            this.doubleBackToExitPressedOnce = true
+            Toast.makeText(this, "Pressione novamente para sair", Toast.LENGTH_SHORT).show()
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                doubleBackToExitPressedOnce = false
+            }, 2000)
+        }
+    }
+}`)">Copiar Código</button>
+        <div class="note">
+            <strong>Dica Importante:</strong> Certifique-se de que o JavaScript está habilitado no WebView para que sites modernos funcionem corretamente.
+        </div>
+    </section>
+
+    <section>
+        <h2>Passo 3: Configuração do Ícone do Aplicativo</h2>
+        <p>Prepare ícones em múltiplas resoluções: 48x48, 72x72, 96x96, 144x144, 192x192 pixels e coloque-os nas pastas mipmap correspondentes em <code>res/</code>.</p>
+        <p>Use o Image Asset Studio no Android Studio para automatizar o processo: <strong>File &gt; New &gt; Image Asset</strong>.</p>
+        <div class="note">
+            <strong>Atenção:</strong> Certifique-se de que os ícones são claros e representativos do aplicativo.
+        </div>
+    </section>
+
+    <section>
+        <h2>Passo 4: Testando e Otimizando</h2>
+        <p>Conecte sua Android TV ou use um emulador de TV para testar o aplicativo. Certifique-se de que o site carregue rapidamente e considere otimizações adicionais.</p>
+        <div class="note">
+            <strong>Dica de Configuração de Tela:</strong> TVs Android suportam resoluções de 720p a 4K. Assegure-se de que seu aplicativo é responsivo e utiliza corretamente o espaço da tela.
+        </div>
+    </section>
+
+    <section>
+        <h2>Passo 5: Controle do Botão "Voltar"</h2>
+        <p>O código acima já gerencia o comportamento do botão "voltar", permitindo que o usuário pressione duas vezes para sair do aplicativo.</p>
+    </section>
+
+    <section>
+        <h2>Passo 6: Considerações Finais</h2>
+        <ul>
+            <li>Verifique se permissões adicionais são necessárias para funcionalidades específicas.</li>
+            <li>Teste o aplicativo em diferentes dispositivos para garantir compatibilidade.</li>
+            <li>Implemente feedback de usuário para ações importantes.</li>
+            <li>Planeje uma estratégia de atualização e manutenção do aplicativo.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Passo 7: Distribuição Interna</h2>
+        <p>Assine o APK para instalá-lo em dispositivos físicos e transfira o APK para sua Android TV para instalação manual.</p>
+        <div class="note">
+            <strong>Atenção:</strong> Sempre teste o aplicativo em um ambiente seguro antes de instalá-lo em dispositivos finais.
+        </div>
+    </section>
+</main>
+
+<div class="notification" id="notification">Código copiado para a área de transferência!</div>
+
+<script>
+    function copyToClipboard(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        const notification = document.getElementById('notification');
+        notification.style.display = 'block';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>
