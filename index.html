@@ -406,6 +406,8 @@
             const direitosChecked = document.getElementById('diretrizes-direitos').checked;
             const responseMessage = document.getElementById('response-message');
 
+            console.log('Imagem:', imagemChecked, 'Responsabilidade:', responsabilidadeChecked, 'Direitos:', direitosChecked);
+
             if (imagemChecked && responsabilidadeChecked && direitosChecked) {
                 saveAcceptance();
                 document.getElementById('welcome-screen').style.display = 'none';
