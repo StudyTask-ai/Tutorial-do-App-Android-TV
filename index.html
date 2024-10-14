@@ -1,54 +1,86 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seja Bem-Vindo ao Instagram</title>
+    <title>StudyTask</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
             background-color: #000;
-            color: white;
+            font-family: Arial, sans-serif;
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-        }
-        .container {
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
+
+        .container {
+            padding: 20px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #8533f1, #4c00a4);
+            box-shadow: 0px 4px 15px rgba(133, 51, 241, 0.4);
+            width: 350px;
+        }
+
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: white;
+            background: -webkit-linear-gradient(135deg, #8533f1, #00f4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .btn {
-            background-color: #0095f6;
-            color: white;
-            padding: 15px 30px;
+
+        .icon {
+            width: 150px;
+            margin: 20px auto;
+            animation: jump 1s infinite;
+        }
+
+        @keyframes jump {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+
+        p {
+            margin: 20px 0;
             font-size: 1.2rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            background: -webkit-linear-gradient(135deg, #ffffff, #8533f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .btn:hover {
-            background-color: #0077cc;
+
+        .button {
+            background: linear-gradient(135deg, #8533f1, #00f4ff);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #4c00a4, #8533f1);
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Seja Bem-Vindo ao Instagram</h1>
-        <button class="btn" onclick="window.location.href='https://www.instagram.com/?utm_source=op_m_sd'">Entrar</button>
+        <h1>StudyTask</h1>
+        <img src="https://raw.githubusercontent.com/Luanzinh0fc/Luanzinh0fc-Banco-de-dados-p-blicos/main/1000008714-removebg.png" alt="StudyTask Ícone" class="icon">
+        <p>"O sucesso é a soma de pequenos esforços repetidos dia após dia."</p>
+        <button class="button" onclick="window.location.href='https://www.socialcreator.com/tarefastdudytask'">Entrar</button>
     </div>
 
 </body>
